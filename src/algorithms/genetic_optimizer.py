@@ -2,14 +2,15 @@ import random
 import copy
 from typing import List, Tuple
 from src.models.location import Location
+from src.models.vehicle import Vehicle
 from src.utils.vrp_helper import VRPHelper
 
 class GeneticOptimizer:
-    def __init__(self, locations: List[Location], depot: Location, vehicle_capacity: int, 
+    def __init__(self, locations: List[Location], depot: Location, vehicle: Vehicle, 
                  pop_size=100, elite_size=2, mutation_rate=0.02, generations=200):
         self.locations = locations
         self.depot = depot
-        self.vehicle_capacity = vehicle_capacity
+        self.vehicle = vehicle
         self.pop_size = pop_size
         self.elite_size = elite_size
         self.mutation_rate = mutation_rate
@@ -26,15 +27,25 @@ class GeneticOptimizer:
     def fitness(self, individual: List[Location]) -> float:
         """
         Calculates fitness. Lower is better.
-        Combines Distance + Priority Penalty.
+        Combines Distance + Priority Penalty + Max Distance Penalty.
         """
-        routes = VRPHelper.split_route(individual, self.depot, self.vehicle_capacity)
-        dist = VRPHelper.calculate_total_distance(routes, self.depot)
+        routes = VRPHelper.split_route(individual, self.depot, self.vehicle.capacity)
+        
+        total_dist = 0.0
+        max_dist_penalty = 0.0
+        
+        for route in routes:
+            r_dist = VRPHelper.calculate_route_distance(route, self.depot)
+            total_dist += r_dist
+            if r_dist > self.vehicle.max_distance:
+                # Penalty: Excess distance * large factor
+                max_dist_penalty += (r_dist - self.vehicle.max_distance) * 1000.0
+
         # Priority penalty could be added here, but for 'Otimização de Rotas' distance is key.
         # We can add a small weight for priority to break ties or favor better ordering.
         priority_penalty = VRPHelper.calculate_priority_score(routes) * 0.1
         
-        return dist + priority_penalty
+        return total_dist + priority_penalty + max_dist_penalty
 
     def selection_tournament(self, population: List[List[Location]], k=5) -> List[Location]:
         tournament = random.sample(population, k)
@@ -99,7 +110,7 @@ class GeneticOptimizer:
             # if gen % 50 == 0:
             #     print(f"Gen {gen}: {best_overall_fit}")
 
-        best_routes = VRPHelper.split_route(best_overall_ind, self.depot, self.vehicle_capacity)
+        best_routes = VRPHelper.split_route(best_overall_ind, self.depot, self.vehicle.capacity)
         best_dist = VRPHelper.calculate_total_distance(best_routes, self.depot)
         
         return best_routes, best_dist

@@ -28,20 +28,25 @@ class VRPHelper:
         return routes
 
     @staticmethod
+    def calculate_route_distance(route: List[Location], depot: Location) -> float:
+        """
+        Calculates distance for a single route including return to depot.
+        """
+        if not route: return 0.0
+        dist = depot.distance_to(route[0])
+        for i in range(len(route) - 1):
+            dist += route[i].distance_to(route[i+1])
+        dist += route[-1].distance_to(depot)
+        return dist
+
+    @staticmethod
     def calculate_total_distance(routes: List[List[Location]], depot: Location) -> float:
         """
         Calculates total fleet distance including return to depot.
         """
         total_dist = 0.0
         for route in routes:
-            if not route: continue
-            # Depot -> First
-            total_dist += depot.distance_to(route[0])
-            # Inter-nodes
-            for i in range(len(route) - 1):
-                total_dist += route[i].distance_to(route[i+1])
-            # Last -> Depot
-            total_dist += route[-1].distance_to(depot)
+            total_dist += VRPHelper.calculate_route_distance(route, depot)
         return total_dist
 
     @staticmethod

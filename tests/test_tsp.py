@@ -1,5 +1,6 @@
 import unittest
 from src.models.location import Location
+from src.models.vehicle import Vehicle
 from src.utils.vrp_helper import VRPHelper
 from src.algorithms.genetic_optimizer import GeneticOptimizer
 
@@ -29,7 +30,8 @@ class TestTSP(unittest.TestCase):
 
     def test_ga_runs(self):
         locations = [self.loc1, self.loc2, self.loc3]
-        ga = GeneticOptimizer(locations, self.depot, vehicle_capacity=10, generations=5, pop_size=10)
+        vehicle = Vehicle(id=1, capacity=10, max_distance=100)
+        ga = GeneticOptimizer(locations, self.depot, vehicle=vehicle, generations=5, pop_size=10)
         routes, dist = ga.run()
         self.assertTrue(len(routes) > 0)
         self.assertTrue(dist > 0)
