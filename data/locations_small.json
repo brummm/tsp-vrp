@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "x": 20,
+    "y": 80,
+    "name": "Hosp. A",
+    "priority": 3,
+    "demand": 1
+  },
+  {
+    "id": 2,
+    "x": 60,
+    "y": 90,
+    "name": "Clinic B",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 3,
+    "x": 80,
+    "y": 20,
+    "name": "Pharmacy C",
+    "priority": 2,
+    "demand": 1
+  },
+  {
+    "id": 4,
+    "x": 10,
+    "y": 10,
+    "name": "Lab D",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 5,
+    "x": 90,
+    "y": 60,
+    "name": "Hosp. E",
+    "priority": 3,
+    "demand": 1
+  },
+  {
+    "id": 6,
+    "x": 40,
+    "y": 40,
+    "name": "Clinic F",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 7,
+    "x": 30,
+    "y": 70,
+    "name": "Center G",
+    "priority": 2,
+    "demand": 1
+  },
+  {
+    "id": 8,
+    "x": 70,
+    "y": 30,
+    "name": "Unit H",
+    "priority": 1,
+    "demand": 1
+  }
+]

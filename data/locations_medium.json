@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "x": 30,
+    "y": 18,
+    "name": "Clinic 1",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 2,
+    "x": 48,
+    "y": 26,
+    "name": "Center 2",
+    "priority": 2,
+    "demand": 1
+  },
+  {
+    "id": 3,
+    "x": 42,
+    "y": 78,
+    "name": "Center 3",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 4,
+    "x": 44,
+    "y": 2,
+    "name": "Unit 4",
+    "priority": 2,
+    "demand": 1
+  },
+  {
+    "id": 5,
+    "x": 67,
+    "y": 68,
+    "name": "Unit 5",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 6,
+    "x": 53,
+    "y": 36,
+    "name": "Center 6",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 7,
+    "x": 12,
+    "y": 91,
+    "name": "Lab 7",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 8,
+    "x": 77,
+    "y": 36,
+    "name": "Center 8",
+    "priority": 2,
+    "demand": 1
+  },
+  {
+    "id": 9,
+    "x": 3,
+    "y": 19,
+    "name": "Clinic 9",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 10,
+    "x": 23,
+    "y": 66,
+    "name": "Clinic 10",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 11,
+    "x": 96,
+    "y": 31,
+    "name": "Lab 11",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 12,
+    "x": 37,
+    "y": 19,
+    "name": "Hosp. 12",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 13,
+    "x": 62,
+    "y": 51,
+    "name": "Hosp. 13",
+    "priority": 3,
+    "demand": 1
+  },
+  {
+    "id": 14,
+    "x": 60,
+    "y": 32,
+    "name": "Unit 14",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 15,
+    "x": 5,
+    "y": 100,
+    "name": "Pharmacy 15",
+    "priority": 2,
+    "demand": 1
+  },
+  {
+    "id": 16,
+    "x": 73,
+    "y": 74,
+    "name": "Clinic 16",
+    "priority": 2,
+    "demand": 1
+  },
+  {
+    "id": 17,
+    "x": 100,
+    "y": 36,
+    "name": "Center 17",
+    "priority": 2,
+    "demand": 1
+  },
+  {
+    "id": 18,
+    "x": 76,
+    "y": 59,
+    "name": "Clinic 18",
+    "priority": 1,
+    "demand": 1
+  },
+  {
+    "id": 19,
+    "x": 48,
+    "y": 43,
+    "name": "Hosp. 19",
+    "priority": 2,
+    "demand": 1
+  },
+  {
+    "id": 20,
+    "x": 22,
+    "y": 11,
+    "name": "Pharmacy 20",
+    "priority": 3,
+    "demand": 1
+  }
+]
