@@ -4,3 +4,6 @@ pandas
 openai
 jupyter
 python-dotenv
+transformers
+torch
+accelerate

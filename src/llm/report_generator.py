@@ -2,48 +2,87 @@ import os
 from typing import List
 from src.models.location import Location
 
-# Try importing openai, handle if not installed or configured
+# Try importing transformers
 try:
-    from openai import OpenAI
+    from transformers import pipeline
 except ImportError:
-    OpenAI = None
+    pipeline = None
 
 class ReportGenerator:
-    def __init__(self, api_key: str = None):
-        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
-        self.client = None
-        if self.api_key and OpenAI:
+    def __init__(self, model_name: str = "Qwen/Qwen2.5-0.5B-Instruct"):
+        self.pipe = None
+        if pipeline:
             try:
-                self.client = OpenAI(api_key=self.api_key)
-            except:
-                pass # Fallback to mock
+                # Load the pipeline. 
+                # device_map="auto" attempts to use GPU/MPS if available, otherwise CPU.
+                # This requires 'accelerate' and 'torch' installed.
+                print(f"Loading local model: {model_name}...")
+                self.pipe = pipeline("text-generation", model=model_name, device_map="auto")
+                print("Model loaded successfully.")
+            except Exception as e:
+                print(f"Failed to load local model {model_name}: {e}")
+                pass
 
     def generate_driver_instructions(self, route_idx: int, route: List[Location]) -> str:
         """
-        Generates natural language instructions for a driver.
+        Generates natural language instructions for a driver using a local LLM.
         """
-        stops_str = ", ".join([f"{loc.name} (Priority {loc.priority})" for loc in route])
-        prompt = (f"Generate a friendly and concise route plan for Driver #{route_idx+1}. "
-                  f"The sequence of stops is: {stops_str}. "
-                  "Start from the Central Depot, visit these stops in exact order, and finally return to the Central Depot. "
-                  "Highlight any High or Critical priority stops.")
+        # Hybrid Approach:
+        # 1. Use LLM to generate a friendly, unique intro.
+        # 2. Programmatically format the route list to guarantee accuracy (0% hallucination).
+        # 3. Use LLM to generate a safety tip or closing.
 
-        if self.client:
+        intro_prompt = f"Write a single friendly, motivating sentence to start a route sheet for Driver #{route_idx+1}."
+        
+        intro_text = "Here is your route:"
+        if self.pipe:
             try:
-                response = self.client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    messages=[
-                        {"role": "system", "content": "You are a helpful logistics assistant for a medical delivery company."},
-                        {"role": "user", "content": prompt}
-                    ],
-                    max_tokens=200
+                # Generate Intro
+                outputs = self.pipe(
+                    [{"role": "user", "content": intro_prompt}],
+                    max_new_tokens=50,
+                    do_sample=True,
+                    temperature=0.8
                 )
-                return response.choices[0].message.content
-            except Exception as e:
-                # Log error or silence it
-                return self._mock_instructions(route_idx, route)
-        else:
-            return self._mock_instructions(route_idx, route)
+                intro_text = outputs[0]["generated_text"][-1]["content"].strip()
+            except:
+                pass
+
+        # Programmatic List formatting (Guaranteed Correctness)
+        lines = [f"*** {intro_text} ***", ""]
+        lines.append("1. 🏭 START at Central Depot")
+        
+        for i, loc in enumerate(route):
+            # Logic for priority display
+            if loc.priority == 3:
+                prio_str = "CRITICAL (3) 🔴"
+            elif loc.priority == 2:
+                prio_str = "HIGH (2) 🟠"
+            else:
+                prio_str = "Normal (1) 🟢"
+            
+            lines.append(f"{i+2}. 🏥 STOP: {loc.name} - Priority: {prio_str}")
+        
+        lines.append(f"{len(route)+2}. 🏁 END at Central Depot")
+        lines.append("")
+
+        # Closing
+        closing_text = "Drive safely!"
+        if self.pipe:
+            try:
+                outputs = self.pipe(
+                    [{"role": "user", "content": "Write a short, 5-word safety reminder for a driver."}],
+                    max_new_tokens=20,
+                    do_sample=True,
+                    temperature=0.7
+                )
+                closing_text = outputs[0]["generated_text"][-1]["content"].strip()
+            except:
+                pass
+        
+        lines.append(closing_text)
+
+        return "\n".join(lines)
 
     def _mock_instructions(self, route_idx: int, route: List[Location]) -> str:
         lines = [f"*** ROUTE PLAN (SIMULATED LLM OUTPUT) FOR DRIVER {route_idx + 1} ***"]
