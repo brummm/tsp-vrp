@@ -7,11 +7,11 @@ class DataLoader:
     @staticmethod
     def load_data(limit: int, data_dir: str = 'data') -> List[Location]:
         """
-        Loads 'limit' delivery locations from locations_large.json 
+        Loads 'limit' delivery locations from locations.json 
         and ALL gas stations from gas_stations.json.
         """
         # Determine paths
-        loc_path = os.path.join(data_dir, 'locations_large.json')
+        loc_path = os.path.join(data_dir, 'locations.json')
         gas_path = os.path.join(data_dir, 'gas_stations.json')
         
         locations = []

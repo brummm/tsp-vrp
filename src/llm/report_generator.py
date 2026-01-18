@@ -38,7 +38,7 @@ class ReportGenerator:
                 prio_label = "High"
             
             # Simple line for the LLM to format
-            line = f"- {loc.name} (Priority: {prio_label})"
+            line = loc.name if loc.type == 'depot' or loc.type == 'gas_station' else f"- {loc.name} (Priority: {prio_label})"
             formatted_stops.append(line)
 
         stops_block = "\n".join(formatted_stops)
