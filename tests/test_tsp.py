@@ -15,27 +15,36 @@ class TestTSP(unittest.TestCase):
         self.assertEqual(self.depot.distance_to(self.loc1), 10.0)
 
     def test_split_route(self):
-        # Capacity 10. L1(5), L2(6), L3(5).
-        # V1: L1 (load 5). Next L2 (6). 5+6=11 > 10. Stop V1.
-        # V2: L2 (load 6). Next L3 (5). 6+5=11 > 10. Stop V2.
-        # V3: L3 (load 5).
         tour = [self.loc1, self.loc2, self.loc3]
-        fleet = [Vehicle(1, 10), Vehicle(2, 10), Vehicle(3, 10)]
-        routes, unassigned = VRPHelper.split_route_fleet(tour, self.depot, fleet)
+        fleet = [Vehicle(1, 10, max_distance=100), Vehicle(2, 10, max_distance=100), Vehicle(3, 10, max_distance=100)]
+        gas_stations = []
+        
+        # Logic: Chunking
+        # 3 vehicles, 3 locs. 1 loc each.
+        # All reachable.
+        routes, dist, unassigned = VRPHelper.split_route_fleet(tour, self.depot, fleet, gas_stations)
         
         self.assertEqual(len(routes), 3)
-        self.assertEqual(routes[0], [self.loc1])
-        self.assertEqual(routes[1], [self.loc2])
-        self.assertEqual(routes[2], [self.loc3])
-        self.assertEqual(len(unassigned), 0)
+        self.assertEqual(routes[0], [self.loc1, self.depot])
+        self.assertEqual(routes[1], [self.loc2, self.depot])
+        self.assertEqual(routes[2], [self.loc3, self.depot])
+        self.assertEqual(unassigned, 0)
 
     def test_ga_runs(self):
         locations = [self.loc1, self.loc2, self.loc3]
         fleet = [Vehicle(i, 10, max_distance=100) for i in range(5)]
         ga = GeneticOptimizer(locations, self.depot, fleet=fleet, generations=5, pop_size=10)
-        routes, dist = ga.run()
+        routes, dist, history = ga.run()
         self.assertTrue(len(routes) > 0)
         self.assertTrue(dist > 0)
+        self.assertTrue(len(history) == 5)
+
+    def test_ga_early_stopping(self):
+        locations = [self.loc1, self.loc2, self.loc3]
+        fleet = [Vehicle(i, 10, max_distance=100) for i in range(5)]
+        ga = GeneticOptimizer(locations, self.depot, fleet=fleet, generations=50, pop_size=10, early_stopping_rounds=2)
+        routes, dist, history = ga.run()
+        self.assertTrue(len(history) < 50)
 
 if __name__ == '__main__':
     unittest.main()
