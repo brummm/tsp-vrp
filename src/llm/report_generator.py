@@ -9,14 +9,12 @@ except ImportError:
     pipeline = None
 
 class ReportGenerator:
-    def __init__(self, model_name: str = "Qwen/Qwen2.5-0.5B-Instruct"):
+    def __init__(self, model_name: str = "Qwen/Qwen2.5-1.5B-Instruct"):
         self.pipe = None
         if pipeline:
             try:
-                # Load the pipeline. 
-                # device_map="auto" attempts to use GPU/MPS if available, otherwise CPU.
-                # This requires 'accelerate' and 'torch' installed.
                 print(f"Loading local model: {model_name}...")
+                # device_map="auto" will use GPU/MPS if available.
                 self.pipe = pipeline("text-generation", model=model_name, device_map="auto")
                 print("Model loaded successfully.")
             except Exception as e:
@@ -27,62 +25,44 @@ class ReportGenerator:
         """
         Generates natural language instructions for a driver using a local LLM.
         """
-        # Hybrid Approach:
-        # 1. Use LLM to generate a friendly, unique intro.
-        # 2. Programmatically format the route list to guarantee accuracy (0% hallucination).
-        # 3. Use LLM to generate a safety tip or closing.
-
-        intro_prompt = f"Write a single friendly, motivating sentence to start a route sheet for Driver #{route_idx+1}."
+        # Create a clear, bulleted string of the raw data
+        stops_block = "\n".join([f"{i+1}. {loc.name} (Priority: {loc.priority})" for i, loc in enumerate(route)])
         
-        intro_text = "Here is your route:"
-        if self.pipe:
-            try:
-                # Generate Intro
-                outputs = self.pipe(
-                    [{"role": "user", "content": intro_prompt}],
-                    max_new_tokens=50,
-                    do_sample=True,
-                    temperature=0.8
-                )
-                intro_text = outputs[0]["generated_text"][-1]["content"].strip()
-            except:
-                pass
+        # System prompt: Define a persona that is strict about data integrity
+        system_content = (
+            "You are a Logistics Dispatcher. Write a friendly message to the driver.\n"
+            "STRUCTURE:\n"
+            "1. Greeting.\n"
+            "2. The Route List (You MUST list stops EXACTLY as provided in raw data. Copy them line-by-line. Do not miss any).\n"
+            "3. Closing/Safety tip."
+        )
 
-        # Programmatic List formatting (Guaranteed Correctness)
-        lines = [f"*** {intro_text} ***", ""]
-        lines.append("1. 🏭 START at Central Depot")
-        
-        for i, loc in enumerate(route):
-            # Logic for priority display
-            if loc.priority == 3:
-                prio_str = "CRITICAL (3) 🔴"
-            elif loc.priority == 2:
-                prio_str = "HIGH (2) 🟠"
-            else:
-                prio_str = "Normal (1) 🟢"
-            
-            lines.append(f"{i+2}. 🏥 STOP: {loc.name} - Priority: {prio_str}")
-        
-        lines.append(f"{len(route)+2}. 🏁 END at Central Depot")
-        lines.append("")
+        user_content = (
+            f"Driver ID: {route_idx+1}\n"
+            f"Raw Route Data:\n{stops_block}\n\n"
+            "Please generate the full Route Sheet."
+        )
 
-        # Closing
-        closing_text = "Drive safely!"
+        messages = [
+            {"role": "system", "content": system_content},
+            {"role": "user", "content": user_content}
+        ]
+
         if self.pipe:
             try:
                 outputs = self.pipe(
-                    [{"role": "user", "content": "Write a short, 5-word safety reminder for a driver."}],
-                    max_new_tokens=20,
-                    do_sample=True,
-                    temperature=0.7
+                    messages, 
+                    max_new_tokens=512, # Allow enough space for the full list
+                    do_sample=True, 
+                    temperature=0.3,    # Low temp for accuracy
+                    top_p=0.9
                 )
-                closing_text = outputs[0]["generated_text"][-1]["content"].strip()
-            except:
-                pass
-        
-        lines.append(closing_text)
-
-        return "\n".join(lines)
+                return outputs[0]["generated_text"][-1]["content"]
+            except Exception as e:
+                print(f"Generation error: {e}")
+                return self._mock_instructions(route_idx, route)
+        else:
+            return self._mock_instructions(route_idx, route)
 
     def _mock_instructions(self, route_idx: int, route: List[Location]) -> str:
         lines = [f"*** ROUTE PLAN (SIMULATED LLM OUTPUT) FOR DRIVER {route_idx + 1} ***"]
