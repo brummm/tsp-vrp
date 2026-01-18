@@ -16,22 +16,23 @@ class TestTSP(unittest.TestCase):
 
     def test_split_route(self):
         # Capacity 10. L1(5), L2(6), L3(5).
-        # Our greedy split is sequential.
-        # [L1] -> load 5. Next L2(6) -> 5+6=11 > 10. Split.
-        # Route 1: [L1]. New load 6.
-        # Next L3(5) -> 6+5=11 > 10. Split.
-        # Route 2: [L2]. New load 5.
-        # Route 3: [L3].
+        # V1: L1 (load 5). Next L2 (6). 5+6=11 > 10. Stop V1.
+        # V2: L2 (load 6). Next L3 (5). 6+5=11 > 10. Stop V2.
+        # V3: L3 (load 5).
         tour = [self.loc1, self.loc2, self.loc3]
-        routes = VRPHelper.split_route(tour, self.depot, 10)
+        fleet = [Vehicle(1, 10), Vehicle(2, 10), Vehicle(3, 10)]
+        routes, unassigned = VRPHelper.split_route_fleet(tour, fleet)
+        
         self.assertEqual(len(routes), 3)
         self.assertEqual(routes[0], [self.loc1])
         self.assertEqual(routes[1], [self.loc2])
+        self.assertEqual(routes[2], [self.loc3])
+        self.assertEqual(len(unassigned), 0)
 
     def test_ga_runs(self):
         locations = [self.loc1, self.loc2, self.loc3]
-        vehicle = Vehicle(id=1, capacity=10, max_distance=100)
-        ga = GeneticOptimizer(locations, self.depot, vehicle=vehicle, generations=5, pop_size=10)
+        fleet = [Vehicle(i, 10, max_distance=100) for i in range(5)]
+        ga = GeneticOptimizer(locations, self.depot, fleet=fleet, generations=5, pop_size=10)
         routes, dist = ga.run()
         self.assertTrue(len(routes) > 0)
         self.assertTrue(dist > 0)

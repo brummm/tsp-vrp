@@ -19,6 +19,7 @@ class DataLoader:
                 y=item['y'],
                 name=item['name'],
                 demand=item.get('demand', 1),
-                priority=item.get('priority', 1)
+                priority=item.get('priority', 1),
+                type=item.get('type', 'delivery')
             ))
         return locations

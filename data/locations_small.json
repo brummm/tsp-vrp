@@ -5,7 +5,8 @@
     "y": 80,
     "name": "Hosp. A",
     "priority": 3,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 2,
@@ -13,7 +14,8 @@
     "y": 90,
     "name": "Clinic B",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 3,
@@ -21,7 +23,8 @@
     "y": 20,
     "name": "Pharmacy C",
     "priority": 2,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 4,
@@ -29,7 +32,8 @@
     "y": 10,
     "name": "Lab D",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 5,
@@ -37,7 +41,8 @@
     "y": 60,
     "name": "Hosp. E",
     "priority": 3,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 6,
@@ -45,7 +50,8 @@
     "y": 40,
     "name": "Clinic F",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 7,
@@ -53,7 +59,8 @@
     "y": 70,
     "name": "Center G",
     "priority": 2,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 8,
@@ -61,6 +68,25 @@
     "y": 30,
     "name": "Unit H",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
+  },
+  {
+    "id": 9,
+    "x": 66,
+    "y": 19,
+    "name": "Gas Station 1",
+    "priority": 1,
+    "demand": 0,
+    "type": "gas_station"
+  },
+  {
+    "id": 10,
+    "x": 79,
+    "y": 52,
+    "name": "Gas Station 2",
+    "priority": 1,
+    "demand": 0,
+    "type": "gas_station"
   }
 ]

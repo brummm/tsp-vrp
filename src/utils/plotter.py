@@ -24,20 +24,35 @@ class Plotter:
             
             # Plot stops
             for loc in route:
-                # Color based on priority
-                if loc.priority == 3:
+                is_gas = getattr(loc, 'type', 'delivery') == 'gas_station'
+                
+                if is_gas:
+                    fc = 'black'
+                    marker = '^'
+                    size = 120
+                    label_text = "Gas Station"
+                elif loc.priority == 3:
                     fc = 'red'
+                    marker = 'o'
+                    size = 80
+                    label_text = loc.name
                 elif loc.priority == 2:
                     fc = 'orange'
+                    marker = 'o'
+                    size = 80
+                    label_text = loc.name
                 else:
                     fc = color
+                    marker = 'o'
+                    size = 80
+                    label_text = loc.name
                     
-                plt.scatter(loc.x, loc.y, c=fc, s=80, edgecolors='black', zorder=5)
+                plt.scatter(loc.x, loc.y, c=fc, s=size, marker=marker, edgecolors='black', zorder=5)
+                # Only annotate non-gas stations to reduce clutter, or all
                 plt.annotate(loc.name, (loc.x+2, loc.y+2), fontsize=9)
                 
         plt.title("Optimized Vehicle Routing (VRP Solution)")
         plt.xlabel("X Coordinate")
         plt.ylabel("Y Coordinate")
-        plt.legend()
         plt.grid(True, linestyle='--', alpha=0.5)
         plt.show()

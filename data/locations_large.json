@@ -1,802 +1,992 @@
 [
   {
     "id": 1,
-    "x": 57,
-    "y": 95,
+    "x": 93,
+    "y": 0,
     "name": "Pharmacy 1",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 2,
-    "x": 8,
-    "y": 40,
+    "x": 0,
+    "y": 54,
     "name": "Unit 2",
-    "priority": 2,
-    "demand": 1
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 3,
-    "x": 44,
-    "y": 24,
-    "name": "Center 3",
+    "x": 90,
+    "y": 78,
+    "name": "Unit 3",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 4,
-    "x": 73,
-    "y": 46,
-    "name": "Unit 4",
-    "priority": 2,
-    "demand": 1
+    "x": 58,
+    "y": 3,
+    "name": "Lab 4",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 5,
-    "x": 19,
-    "y": 20,
-    "name": "Hosp. 5",
+    "x": 33,
+    "y": 78,
+    "name": "Center 5",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 6,
-    "x": 98,
-    "y": 30,
-    "name": "Hosp. 6",
+    "x": 38,
+    "y": 20,
+    "name": "Lab 6",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 7,
-    "x": 74,
-    "y": 98,
-    "name": "Clinic 7",
+    "x": 19,
+    "y": 47,
+    "name": "Hosp. 7",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 8,
-    "x": 48,
-    "y": 37,
-    "name": "Clinic 8",
+    "x": 92,
+    "y": 3,
+    "name": "Lab 8",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 9,
-    "x": 84,
-    "y": 53,
-    "name": "Center 9",
-    "priority": 3,
-    "demand": 1
+    "x": 4,
+    "y": 21,
+    "name": "Pharmacy 9",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 10,
-    "x": 47,
+    "x": 22,
     "y": 43,
-    "name": "Clinic 10",
+    "name": "Pharmacy 10",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 11,
-    "x": 20,
-    "y": 10,
-    "name": "Hosp. 11",
+    "x": 49,
+    "y": 15,
+    "name": "Unit 11",
     "priority": 2,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 12,
-    "x": 54,
-    "y": 50,
+    "x": 53,
+    "y": 21,
     "name": "Unit 12",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 13,
-    "x": 60,
-    "y": 91,
-    "name": "Center 13",
-    "priority": 1,
-    "demand": 1
+    "x": 96,
+    "y": 17,
+    "name": "Pharmacy 13",
+    "priority": 3,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 14,
-    "x": 13,
-    "y": 34,
+    "x": 24,
+    "y": 96,
     "name": "Lab 14",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 15,
-    "x": 29,
-    "y": 44,
+    "x": 0,
+    "y": 53,
     "name": "Clinic 15",
     "priority": 2,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 16,
-    "x": 75,
-    "y": 76,
+    "x": 68,
+    "y": 79,
     "name": "Lab 16",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 17,
-    "x": 26,
-    "y": 68,
-    "name": "Unit 17",
+    "x": 93,
+    "y": 78,
+    "name": "Hosp. 17",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 18,
-    "x": 72,
-    "y": 31,
-    "name": "Center 18",
+    "x": 30,
+    "y": 2,
+    "name": "Pharmacy 18",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 19,
-    "x": 30,
-    "y": 55,
-    "name": "Unit 19",
+    "x": 44,
+    "y": 39,
+    "name": "Pharmacy 19",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 20,
-    "x": 55,
-    "y": 30,
-    "name": "Center 20",
-    "priority": 2,
-    "demand": 1
+    "x": 38,
+    "y": 28,
+    "name": "Lab 20",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 21,
-    "x": 30,
-    "y": 63,
+    "x": 54,
+    "y": 24,
     "name": "Clinic 21",
     "priority": 3,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 22,
-    "x": 44,
-    "y": 16,
-    "name": "Clinic 22",
-    "priority": 2,
-    "demand": 1
+    "x": 4,
+    "y": 100,
+    "name": "Lab 22",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 23,
-    "x": 0,
-    "y": 94,
-    "name": "Unit 23",
-    "priority": 1,
-    "demand": 1
+    "x": 17,
+    "y": 52,
+    "name": "Hosp. 23",
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 24,
-    "x": 5,
-    "y": 3,
+    "x": 19,
+    "y": 42,
     "name": "Unit 24",
-    "priority": 1,
-    "demand": 1
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 25,
-    "x": 66,
-    "y": 64,
-    "name": "Lab 25",
-    "priority": 1,
-    "demand": 1
+    "x": 22,
+    "y": 38,
+    "name": "Unit 25",
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 26,
-    "x": 80,
-    "y": 89,
-    "name": "Pharmacy 26",
+    "x": 67,
+    "y": 82,
+    "name": "Clinic 26",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 27,
-    "x": 13,
-    "y": 69,
-    "name": "Unit 27",
-    "priority": 3,
-    "demand": 1
+    "x": 28,
+    "y": 80,
+    "name": "Lab 27",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 28,
-    "x": 36,
-    "y": 42,
-    "name": "Unit 28",
-    "priority": 2,
-    "demand": 1
+    "x": 41,
+    "y": 36,
+    "name": "Lab 28",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 29,
-    "x": 63,
-    "y": 50,
-    "name": "Hosp. 29",
+    "x": 86,
+    "y": 20,
+    "name": "Pharmacy 29",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 30,
-    "x": 49,
-    "y": 90,
-    "name": "Lab 30",
+    "x": 53,
+    "y": 8,
+    "name": "Unit 30",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 31,
-    "x": 55,
-    "y": 24,
-    "name": "Hosp. 31",
-    "priority": 1,
-    "demand": 1
+    "x": 98,
+    "y": 82,
+    "name": "Center 31",
+    "priority": 3,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 32,
-    "x": 27,
-    "y": 47,
-    "name": "Hosp. 32",
-    "priority": 1,
-    "demand": 1
+    "x": 47,
+    "y": 29,
+    "name": "Pharmacy 32",
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 33,
-    "x": 8,
-    "y": 60,
-    "name": "Unit 33",
+    "x": 0,
+    "y": 63,
+    "name": "Lab 33",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 34,
-    "x": 38,
-    "y": 12,
-    "name": "Pharmacy 34",
-    "priority": 3,
-    "demand": 1
+    "x": 58,
+    "y": 67,
+    "name": "Unit 34",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 35,
-    "x": 73,
-    "y": 17,
-    "name": "Unit 35",
-    "priority": 3,
-    "demand": 1
+    "x": 89,
+    "y": 100,
+    "name": "Lab 35",
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 36,
-    "x": 46,
-    "y": 92,
-    "name": "Unit 36",
+    "x": 4,
+    "y": 84,
+    "name": "Pharmacy 36",
     "priority": 2,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 37,
-    "x": 31,
-    "y": 30,
-    "name": "Pharmacy 37",
-    "priority": 2,
-    "demand": 1
+    "x": 79,
+    "y": 21,
+    "name": "Hosp. 37",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 38,
-    "x": 29,
-    "y": 56,
-    "name": "Unit 38",
-    "priority": 1,
-    "demand": 1
+    "x": 77,
+    "y": 94,
+    "name": "Hosp. 38",
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 39,
-    "x": 76,
-    "y": 55,
-    "name": "Clinic 39",
+    "x": 1,
+    "y": 30,
+    "name": "Center 39",
     "priority": 2,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 40,
-    "x": 25,
-    "y": 29,
-    "name": "Center 40",
+    "x": 72,
+    "y": 40,
+    "name": "Lab 40",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 41,
-    "x": 6,
-    "y": 19,
-    "name": "Lab 41",
-    "priority": 3,
-    "demand": 1
+    "x": 71,
+    "y": 70,
+    "name": "Clinic 41",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 42,
-    "x": 43,
-    "y": 50,
-    "name": "Center 42",
+    "x": 39,
+    "y": 91,
+    "name": "Clinic 42",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 43,
-    "x": 6,
-    "y": 49,
-    "name": "Hosp. 43",
+    "x": 64,
+    "y": 73,
+    "name": "Pharmacy 43",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 44,
-    "x": 44,
-    "y": 69,
-    "name": "Lab 44",
+    "x": 19,
+    "y": 27,
+    "name": "Clinic 44",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 45,
-    "x": 96,
-    "y": 33,
-    "name": "Hosp. 45",
+    "x": 20,
+    "y": 14,
+    "name": "Pharmacy 45",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 46,
-    "x": 33,
-    "y": 96,
-    "name": "Hosp. 46",
-    "priority": 3,
-    "demand": 1
+    "x": 72,
+    "y": 68,
+    "name": "Lab 46",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 47,
-    "x": 5,
-    "y": 53,
-    "name": "Pharmacy 47",
+    "x": 54,
+    "y": 3,
+    "name": "Hosp. 47",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 48,
-    "x": 95,
-    "y": 25,
+    "x": 2,
+    "y": 73,
     "name": "Pharmacy 48",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 49,
-    "x": 74,
-    "y": 37,
-    "name": "Unit 49",
-    "priority": 2,
-    "demand": 1
+    "x": 67,
+    "y": 89,
+    "name": "Clinic 49",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 50,
-    "x": 40,
-    "y": 55,
-    "name": "Clinic 50",
+    "x": 61,
+    "y": 70,
+    "name": "Center 50",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 51,
-    "x": 2,
-    "y": 100,
+    "x": 65,
+    "y": 60,
     "name": "Clinic 51",
-    "priority": 2,
-    "demand": 1
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 52,
-    "x": 31,
-    "y": 90,
-    "name": "Clinic 52",
-    "priority": 1,
-    "demand": 1
+    "x": 6,
+    "y": 95,
+    "name": "Unit 52",
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 53,
-    "x": 66,
-    "y": 14,
-    "name": "Clinic 53",
+    "x": 38,
+    "y": 85,
+    "name": "Hosp. 53",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 54,
-    "x": 42,
-    "y": 7,
-    "name": "Hosp. 54",
-    "priority": 1,
-    "demand": 1
+    "x": 4,
+    "y": 60,
+    "name": "Center 54",
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 55,
-    "x": 14,
-    "y": 64,
-    "name": "Unit 55",
-    "priority": 2,
-    "demand": 1
+    "x": 69,
+    "y": 79,
+    "name": "Lab 55",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 56,
-    "x": 60,
-    "y": 87,
+    "x": 81,
+    "y": 69,
     "name": "Center 56",
-    "priority": 3,
-    "demand": 1
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 57,
-    "x": 16,
-    "y": 20,
-    "name": "Lab 57",
+    "x": 11,
+    "y": 4,
+    "name": "Clinic 57",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 58,
-    "x": 0,
-    "y": 9,
+    "x": 96,
+    "y": 3,
     "name": "Center 58",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 59,
-    "x": 42,
-    "y": 62,
-    "name": "Hosp. 59",
+    "x": 23,
+    "y": 85,
+    "name": "Lab 59",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 60,
-    "x": 59,
-    "y": 4,
+    "x": 50,
+    "y": 90,
     "name": "Center 60",
-    "priority": 1,
-    "demand": 1
+    "priority": 3,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 61,
-    "x": 85,
-    "y": 89,
-    "name": "Center 61",
-    "priority": 2,
-    "demand": 1
+    "x": 60,
+    "y": 99,
+    "name": "Lab 61",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 62,
-    "x": 75,
-    "y": 92,
-    "name": "Hosp. 62",
+    "x": 56,
+    "y": 63,
+    "name": "Center 62",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 63,
-    "x": 4,
-    "y": 14,
-    "name": "Lab 63",
-    "priority": 1,
-    "demand": 1
+    "x": 5,
+    "y": 58,
+    "name": "Hosp. 63",
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 64,
-    "x": 23,
-    "y": 48,
-    "name": "Pharmacy 64",
-    "priority": 2,
-    "demand": 1
+    "x": 27,
+    "y": 83,
+    "name": "Hosp. 64",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 65,
-    "x": 56,
-    "y": 0,
-    "name": "Lab 65",
-    "priority": 2,
-    "demand": 1
+    "x": 93,
+    "y": 33,
+    "name": "Center 65",
+    "priority": 3,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 66,
-    "x": 62,
-    "y": 31,
-    "name": "Pharmacy 66",
-    "priority": 3,
-    "demand": 1
+    "x": 11,
+    "y": 26,
+    "name": "Clinic 66",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 67,
-    "x": 44,
-    "y": 95,
-    "name": "Unit 67",
-    "priority": 2,
-    "demand": 1
+    "x": 62,
+    "y": 68,
+    "name": "Lab 67",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 68,
-    "x": 63,
-    "y": 84,
-    "name": "Clinic 68",
+    "x": 20,
+    "y": 26,
+    "name": "Center 68",
     "priority": 2,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 69,
-    "x": 79,
-    "y": 29,
-    "name": "Unit 69",
-    "priority": 1,
-    "demand": 1
+    "x": 4,
+    "y": 18,
+    "name": "Pharmacy 69",
+    "priority": 3,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 70,
-    "x": 70,
-    "y": 50,
-    "name": "Clinic 70",
-    "priority": 2,
-    "demand": 1
+    "x": 79,
+    "y": 61,
+    "name": "Center 70",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 71,
-    "x": 90,
-    "y": 40,
-    "name": "Center 71",
+    "x": 59,
+    "y": 2,
+    "name": "Lab 71",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 72,
-    "x": 72,
-    "y": 84,
-    "name": "Hosp. 72",
+    "x": 9,
+    "y": 23,
+    "name": "Center 72",
     "priority": 2,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 73,
-    "x": 41,
-    "y": 48,
-    "name": "Pharmacy 73",
-    "priority": 2,
-    "demand": 1
+    "x": 63,
+    "y": 41,
+    "name": "Lab 73",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 74,
-    "x": 50,
-    "y": 99,
-    "name": "Hosp. 74",
+    "x": 25,
+    "y": 78,
+    "name": "Unit 74",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 75,
-    "x": 57,
-    "y": 69,
-    "name": "Unit 75",
-    "priority": 1,
-    "demand": 1
+    "x": 53,
+    "y": 88,
+    "name": "Hosp. 75",
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 76,
-    "x": 41,
-    "y": 98,
-    "name": "Clinic 76",
-    "priority": 2,
-    "demand": 1
+    "x": 34,
+    "y": 14,
+    "name": "Center 76",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 77,
-    "x": 40,
-    "y": 59,
-    "name": "Center 77",
+    "x": 88,
+    "y": 25,
+    "name": "Unit 77",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 78,
-    "x": 23,
-    "y": 76,
-    "name": "Unit 78",
+    "x": 20,
+    "y": 85,
+    "name": "Hosp. 78",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 79,
-    "x": 81,
-    "y": 37,
-    "name": "Unit 79",
+    "x": 78,
+    "y": 8,
+    "name": "Clinic 79",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 80,
-    "x": 55,
-    "y": 2,
-    "name": "Clinic 80",
-    "priority": 3,
-    "demand": 1
+    "x": 7,
+    "y": 64,
+    "name": "Lab 80",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 81,
-    "x": 16,
-    "y": 20,
-    "name": "Lab 81",
+    "x": 61,
+    "y": 97,
+    "name": "Center 81",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 82,
-    "x": 46,
-    "y": 68,
+    "x": 24,
+    "y": 70,
     "name": "Hosp. 82",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 83,
-    "x": 66,
-    "y": 20,
-    "name": "Center 83",
-    "priority": 3,
-    "demand": 1
+    "x": 6,
+    "y": 82,
+    "name": "Clinic 83",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 84,
-    "x": 36,
-    "y": 79,
-    "name": "Lab 84",
-    "priority": 3,
-    "demand": 1
+    "x": 6,
+    "y": 48,
+    "name": "Hosp. 84",
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 85,
-    "x": 30,
-    "y": 9,
-    "name": "Clinic 85",
-    "priority": 1,
-    "demand": 1
+    "x": 83,
+    "y": 12,
+    "name": "Center 85",
+    "priority": 3,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 86,
-    "x": 84,
-    "y": 22,
-    "name": "Center 86",
-    "priority": 2,
-    "demand": 1
+    "x": 44,
+    "y": 20,
+    "name": "Hosp. 86",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 87,
-    "x": 10,
-    "y": 73,
-    "name": "Center 87",
+    "x": 81,
+    "y": 38,
+    "name": "Clinic 87",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 88,
-    "x": 0,
-    "y": 14,
-    "name": "Center 88",
+    "x": 20,
+    "y": 92,
+    "name": "Lab 88",
     "priority": 2,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 89,
-    "x": 37,
-    "y": 1,
+    "x": 14,
+    "y": 13,
     "name": "Pharmacy 89",
-    "priority": 3,
-    "demand": 1
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 90,
-    "x": 47,
-    "y": 42,
-    "name": "Center 90",
+    "x": 22,
+    "y": 33,
+    "name": "Pharmacy 90",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 91,
-    "x": 91,
-    "y": 16,
+    "x": 96,
+    "y": 83,
     "name": "Lab 91",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 92,
-    "x": 99,
-    "y": 79,
-    "name": "Pharmacy 92",
-    "priority": 2,
-    "demand": 1
+    "x": 32,
+    "y": 35,
+    "name": "Center 92",
+    "priority": 3,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 93,
-    "x": 97,
-    "y": 31,
+    "x": 16,
+    "y": 10,
     "name": "Pharmacy 93",
-    "priority": 3,
-    "demand": 1
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 94,
-    "x": 76,
-    "y": 39,
-    "name": "Clinic 94",
+    "x": 49,
+    "y": 2,
+    "name": "Lab 94",
     "priority": 1,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 95,
-    "x": 55,
-    "y": 93,
-    "name": "Unit 95",
-    "priority": 1,
-    "demand": 1
+    "x": 29,
+    "y": 99,
+    "name": "Clinic 95",
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 96,
-    "x": 18,
-    "y": 93,
+    "x": 47,
+    "y": 8,
     "name": "Lab 96",
     "priority": 2,
-    "demand": 1
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 97,
-    "x": 89,
-    "y": 62,
+    "x": 70,
+    "y": 35,
     "name": "Clinic 97",
-    "priority": 1,
-    "demand": 1
+    "priority": 2,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 98,
-    "x": 5,
-    "y": 92,
+    "x": 81,
+    "y": 27,
     "name": "Clinic 98",
-    "priority": 1,
-    "demand": 1
+    "priority": 3,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 99,
-    "x": 24,
-    "y": 12,
-    "name": "Center 99",
-    "priority": 1,
-    "demand": 1
+    "x": 17,
+    "y": 34,
+    "name": "Hosp. 99",
+    "priority": 3,
+    "demand": 1,
+    "type": "delivery"
   },
   {
     "id": 100,
-    "x": 90,
-    "y": 100,
-    "name": "Unit 100",
-    "priority": 2,
-    "demand": 1
+    "x": 80,
+    "y": 1,
+    "name": "Lab 100",
+    "priority": 1,
+    "demand": 1,
+    "type": "delivery"
+  },
+  {
+    "id": 101,
+    "x": 43,
+    "y": 23,
+    "name": "Gas Station 1",
+    "priority": 1,
+    "demand": 0,
+    "type": "gas_station"
+  },
+  {
+    "id": 102,
+    "x": 49,
+    "y": 17,
+    "name": "Gas Station 2",
+    "priority": 1,
+    "demand": 0,
+    "type": "gas_station"
+  },
+  {
+    "id": 103,
+    "x": 80,
+    "y": 96,
+    "name": "Gas Station 3",
+    "priority": 1,
+    "demand": 0,
+    "type": "gas_station"
+  },
+  {
+    "id": 104,
+    "x": 79,
+    "y": 38,
+    "name": "Gas Station 4",
+    "priority": 1,
+    "demand": 0,
+    "type": "gas_station"
+  },
+  {
+    "id": 105,
+    "x": 29,
+    "y": 35,
+    "name": "Gas Station 5",
+    "priority": 1,
+    "demand": 0,
+    "type": "gas_station"
+  },
+  {
+    "id": 106,
+    "x": 62,
+    "y": 41,
+    "name": "Gas Station 6",
+    "priority": 1,
+    "demand": 0,
+    "type": "gas_station"
+  },
+  {
+    "id": 107,
+    "x": 18,
+    "y": 47,
+    "name": "Gas Station 7",
+    "priority": 1,
+    "demand": 0,
+    "type": "gas_station"
+  },
+  {
+    "id": 108,
+    "x": 92,
+    "y": 54,
+    "name": "Gas Station 8",
+    "priority": 1,
+    "demand": 0,
+    "type": "gas_station"
+  },
+  {
+    "id": 109,
+    "x": 93,
+    "y": 21,
+    "name": "Gas Station 9",
+    "priority": 1,
+    "demand": 0,
+    "type": "gas_station"
+  },
+  {
+    "id": 110,
+    "x": 53,
+    "y": 8,
+    "name": "Gas Station 10",
+    "priority": 1,
+    "demand": 0,
+    "type": "gas_station"
   }
 ]
