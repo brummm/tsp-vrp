@@ -23,33 +23,32 @@ class Plotter:
             plt.plot(xs, ys, c=color, linestyle='-', linewidth=2, alpha=0.7, label=f'Route {idx+1}')
             
             # Plot stops
-            for seq, loc in enumerate(route, start=1):
+            seq  = 1
+            for loc in route:
                 is_gas = getattr(loc, 'type', 'delivery') == 'gas_station'
                 
                 if is_gas:
                     fc = 'black'
                     marker = '^'
-                    size = 120
-                    label_text = "Gas Station"
                 elif loc.priority == 3:
                     fc = 'red'
                     marker = 'o'
-                    size = 80
-                    label_text = loc.name
                 elif loc.priority == 2:
                     fc = 'orange'
                     marker = 'o'
-                    size = 80
-                    label_text = loc.name
                 else:
                     fc = color
                     marker = 'o'
-                    size = 80
-                    label_text = loc.name
+
+                label_text = "Gas Station" if is_gas else f"{seq}. {loc.name}"
+                size = 120 if is_gas else 80
+
+                if not is_gas:
+                    seq += 1
                     
                 plt.scatter(loc.x, loc.y, c=fc, s=size, marker=marker, edgecolors='black', zorder=5)
                 # Annotate with sequence number: "1. Hosp. A"
-                plt.annotate(f"{seq}. {loc.name}", (loc.x+2, loc.y+2), fontsize=9, fontweight='bold')
+                plt.annotate(label_text, (loc.x+2, loc.y+2), fontsize=9, fontweight='bold')
                 
         plt.title("Optimized Vehicle Routing (VRP Solution)")
         plt.xlabel("X Coordinate")

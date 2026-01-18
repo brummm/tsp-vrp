@@ -21,7 +21,7 @@ class TestTSP(unittest.TestCase):
         # V3: L3 (load 5).
         tour = [self.loc1, self.loc2, self.loc3]
         fleet = [Vehicle(1, 10), Vehicle(2, 10), Vehicle(3, 10)]
-        routes, unassigned = VRPHelper.split_route_fleet(tour, fleet)
+        routes, unassigned = VRPHelper.split_route_fleet(tour, self.depot, fleet)
         
         self.assertEqual(len(routes), 3)
         self.assertEqual(routes[0], [self.loc1])

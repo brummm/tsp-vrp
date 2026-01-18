@@ -31,7 +31,7 @@ class GeneticOptimizer:
         """
         Calculates fitness. Lower is better.
         """
-        raw_routes, unassigned = VRPHelper.split_route_fleet(individual, self.fleet)
+        raw_routes, unassigned = VRPHelper.split_route_fleet(individual, self.depot, self.fleet)
         
         total_dist = 0.0
         infeasible_penalty = 0.0
@@ -109,7 +109,7 @@ class GeneticOptimizer:
             pop = new_pop
         
         # Reconstruct best solution
-        raw_routes, unassigned = VRPHelper.split_route_fleet(best_overall_ind, self.fleet)
+        raw_routes, unassigned = VRPHelper.split_route_fleet(best_overall_ind, self.depot, self.fleet)
         
         final_routes = []
         total_dist = 0.0
