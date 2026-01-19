@@ -21,54 +21,6 @@ class GeneticOptimizer:
         self.early_stopping_rounds = early_stopping_rounds
         self.priority_weight = priority_weight
 
-    def initial_population(self) -> List[List[Location]]:
-        population = []
-        for _ in range(self.population_size):
-            individual = self.deliveries[:]
-            random.shuffle(individual)
-            population.append(individual)
-        return population
-
-    def fitness(self, individual: List[Location]) -> float:
-        routes, total_dist, unassigned_count = VRPHelper.split_route_fleet(individual, self.depot, self.fleet, self.gas_stations)
-        
-        unassigned_penalty = unassigned_count * 50000.0
-        priority_penalty = VRPHelper.calculate_priority_score(routes) * self.priority_weight
-        
-        return total_dist + unassigned_penalty + priority_penalty
-
-    def selection_tournament(self, population: List[List[Location]], k=5) -> List[Location]:
-        tournament = random.sample(population, k)
-        return min(tournament, key=self.fitness)
-
-    def crossover_ordered(self, parent1: List[Location], parent2: List[Location]) -> List[Location]:
-        if len(parent1) < 2: return parent1
-        start, end = sorted(random.sample(range(len(parent1)), 2))
-        child = [None] * len(parent1)
-        child[start:end] = parent1[start:end]
-        
-        current_parent2_idx = 0
-        for i in range(len(child)):
-            if child[i] is None:
-                while parent2[current_parent2_idx] in child:
-                    current_parent2_idx += 1
-                    if current_parent2_idx >= len(parent2): break
-                if current_parent2_idx < len(parent2):
-                    child[i] = parent2[current_parent2_idx]
-        
-        remaining = [x for x in parent1 if x not in child]
-        for i in range(len(child)):
-            if child[i] is None:
-                child[i] = remaining.pop(0)
-        return child
-
-    def mutate_swap(self, individual: List[Location]) -> List[Location]:
-        for i in range(len(individual)):
-            if random.random() < self.mutation_rate:
-                j = random.randint(0, len(individual) - 1)
-                individual[i], individual[j] = individual[j], individual[i]
-        return individual
-
     def run(self) -> Tuple[List[List[Location]], float, List[float]]:
         population = self.initial_population()
         best_overall_individual = None
@@ -106,3 +58,54 @@ class GeneticOptimizer:
         final_routes, total_dist, unassigned = VRPHelper.split_route_fleet(best_overall_individual, self.depot, self.fleet, self.gas_stations)
         
         return final_routes, total_dist, fitness_history
+    
+
+    def initial_population(self) -> List[List[Location]]:
+        population = []
+        for _ in range(self.population_size):
+            individual = self.deliveries[:]
+            random.shuffle(individual)
+            population.append(individual)
+        return population
+
+    def fitness(self, individual: List[Location]) -> float:
+        routes, total_dist, unassigned_count = VRPHelper.split_route_fleet(individual, self.depot, self.fleet, self.gas_stations)
+        
+        unassigned_penalty = unassigned_count * 50000.0 # add a huge penalty if a route is not complete
+        priority_penalty = VRPHelper.calculate_priority_score(routes) * self.priority_weight # adds an adjustable penalty to try to 
+        
+        return total_dist + unassigned_penalty + priority_penalty
+
+    def selection_tournament(self, population: List[List[Location]], k=5) -> List[Location]:
+        tournament = random.sample(population, k)
+        return min(tournament, key=self.fitness)
+
+    def crossover_ordered(self, parent1: List[Location], parent2: List[Location]) -> List[Location]:
+        if len(parent1) < 2: return parent1
+        start, end = sorted(random.sample(range(len(parent1)), 2))
+        child = [None] * len(parent1)
+        child[start:end] = parent1[start:end]
+        
+        current_parent2_idx = 0
+        for i in range(len(child)):
+            if child[i] is None:
+                while parent2[current_parent2_idx] in child:
+                    current_parent2_idx += 1
+                    if current_parent2_idx >= len(parent2): break
+                if current_parent2_idx < len(parent2):
+                    child[i] = parent2[current_parent2_idx]
+        
+        remaining = [x for x in parent1 if x not in child]
+        for i in range(len(child)):
+            if child[i] is None:
+                child[i] = remaining.pop(0)
+        return child
+
+    def mutate_swap(self, individual: List[Location]) -> List[Location]:
+        for i in range(len(individual)):
+            if random.random() < self.mutation_rate:
+                j = random.randint(0, len(individual) - 1)
+                individual[i], individual[j] = individual[j], individual[i]
+        return individual
+
+    

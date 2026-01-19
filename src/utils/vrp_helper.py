@@ -120,6 +120,10 @@ class VRPHelper:
     
     @staticmethod
     def calculate_priority_score(routes: List[List[Location]]) -> float:
+        """
+        The bigger the score, the worse a route is.
+        The algorithm tries to recompensate the routes that passes through the higher priotity points first
+        """
         score = 0.0
         for route in routes:
             for i, loc in enumerate(route):
