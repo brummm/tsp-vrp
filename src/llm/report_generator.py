@@ -1,5 +1,6 @@
 import os
 import re
+import torch
 from typing import List
 from src.models.location import Location
 
@@ -15,9 +16,13 @@ class ReportGenerator:
         if pipeline:
             try:
                 print(f"Loading local model: {model_name}...")
-                # device_map="auto" will use GPU/MPS if available.
-                # Qwen 3B requires about 6GB of VRAM/RAM.
-                self.pipe = pipeline("text-generation", model=model_name, device_map="auto")
+                # Optimization: Use auto-dtype (usually float16) to speed up and save RAM
+                self.pipe = pipeline(
+                    "text-generation", 
+                    model=model_name, 
+                    device_map="auto",
+                    torch_dtype="auto"
+                )
                 print("Model loaded successfully.")
             except Exception as e:
                 print(f"Failed to load local model {model_name}: {e}")
@@ -60,7 +65,7 @@ class ReportGenerator:
             try:
                 outputs = self.pipe(
                     messages, 
-                    max_new_tokens=512,
+                    max_new_tokens=256, # Optimization: Reduced from 512
                     do_sample=True, 
                     temperature=0.7,
                     top_p=0.9
