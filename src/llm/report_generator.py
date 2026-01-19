@@ -10,23 +10,34 @@ try:
 except ImportError:
     pipeline = None
 
+# Global cache to prevent re-loading the model in Jupyter notebooks
+_SHARED_PIPELINE = None
+
 class ReportGenerator:
     def __init__(self, model_name: str = "Qwen/Qwen2.5-3B-Instruct"):
+        global _SHARED_PIPELINE
         self.pipe = None
+        
         if pipeline:
-            try:
-                print(f"Loading local model: {model_name}...")
-                # Optimization: Use auto-dtype (usually float16) to speed up and save RAM
-                self.pipe = pipeline(
-                    "text-generation", 
-                    model=model_name, 
-                    device_map="auto",
-                    torch_dtype="auto"
-                )
-                print("Model loaded successfully.")
-            except Exception as e:
-                print(f"Failed to load local model {model_name}: {e}")
-                pass
+            # Check if we already have the model loaded in memory
+            if _SHARED_PIPELINE is not None:
+                self.pipe = _SHARED_PIPELINE
+                print("Using cached LLM model.")
+            else:
+                try:
+                    print(f"Loading local model: {model_name}...")
+                    # Optimization: Use auto-dtype (usually float16) to speed up and save RAM
+                    _SHARED_PIPELINE = pipeline(
+                        "text-generation", 
+                        model=model_name, 
+                        device_map="auto",
+                        torch_dtype="auto"
+                    )
+                    self.pipe = _SHARED_PIPELINE
+                    print("Model loaded successfully.")
+                except Exception as e:
+                    print(f"Failed to load local model {model_name}: {e}")
+                    pass
 
     def generate_driver_instructions(self, route_idx: int, route: List[Location]) -> str:
         """
