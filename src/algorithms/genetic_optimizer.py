@@ -7,14 +7,14 @@ from src.utils.vrp_helper import VRPHelper
 
 class GeneticOptimizer:
     def __init__(self, locations: List[Location], depot: Location, fleet: List[Vehicle], 
-                 pop_size=100, elite_size=2, mutation_rate=0.02, generations=200,
+                 population_size=100, elite_size=2, mutation_rate=0.02, generations=200,
                  early_stopping_rounds: int = None, priority_weight: float = 0.1):
         self.deliveries = [loc for loc in locations if getattr(loc, 'type', 'delivery') == 'delivery']
         self.gas_stations = [loc for loc in locations if getattr(loc, 'type', 'delivery') == 'gas_station']
         
         self.depot = depot
         self.fleet = fleet
-        self.pop_size = pop_size
+        self.population_size = population_size
         self.elite_size = elite_size
         self.mutation_rate = mutation_rate
         self.generations = generations
@@ -23,10 +23,10 @@ class GeneticOptimizer:
 
     def initial_population(self) -> List[List[Location]]:
         population = []
-        for _ in range(self.pop_size):
-            ind = self.deliveries[:]
-            random.shuffle(ind)
-            population.append(ind)
+        for _ in range(self.population_size):
+            individual = self.deliveries[:]
+            random.shuffle(individual)
+            population.append(individual)
         return population
 
     def fitness(self, individual: List[Location]) -> float:
@@ -41,22 +41,22 @@ class GeneticOptimizer:
         tournament = random.sample(population, k)
         return min(tournament, key=self.fitness)
 
-    def crossover_ordered(self, p1: List[Location], p2: List[Location]) -> List[Location]:
-        if len(p1) < 2: return p1
-        start, end = sorted(random.sample(range(len(p1)), 2))
-        child = [None] * len(p1)
-        child[start:end] = p1[start:end]
+    def crossover_ordered(self, parent1: List[Location], parent2: List[Location]) -> List[Location]:
+        if len(parent1) < 2: return parent1
+        start, end = sorted(random.sample(range(len(parent1)), 2))
+        child = [None] * len(parent1)
+        child[start:end] = parent1[start:end]
         
-        current_p2_idx = 0
+        current_parent2_idx = 0
         for i in range(len(child)):
             if child[i] is None:
-                while p2[current_p2_idx] in child:
-                    current_p2_idx += 1
-                    if current_p2_idx >= len(p2): break
-                if current_p2_idx < len(p2):
-                    child[i] = p2[current_p2_idx]
+                while parent2[current_parent2_idx] in child:
+                    current_parent2_idx += 1
+                    if current_parent2_idx >= len(parent2): break
+                if current_parent2_idx < len(parent2):
+                    child[i] = parent2[current_parent2_idx]
         
-        remaining = [x for x in p1 if x not in child]
+        remaining = [x for x in parent1 if x not in child]
         for i in range(len(child)):
             if child[i] is None:
                 child[i] = remaining.pop(0)
@@ -70,39 +70,39 @@ class GeneticOptimizer:
         return individual
 
     def run(self) -> Tuple[List[List[Location]], float, List[float]]:
-        pop = self.initial_population()
-        best_overall_ind = None
-        best_overall_fit = float('inf')
+        population = self.initial_population()
+        best_overall_individual = None
+        best_overall_fitness = float('inf')
         fitness_history = []
         no_improvement_count = 0
         
-        for gen in range(self.generations):
-            pop.sort(key=self.fitness)
+        for generation in range(self.generations):
+            population.sort(key=self.fitness)
             
-            current_best_fit = self.fitness(pop[0])
-            fitness_history.append(current_best_fit)
+            current_best_fitness = self.fitness(population[0])
+            fitness_history.append(current_best_fitness)
             
-            if current_best_fit < best_overall_fit:
-                best_overall_fit = current_best_fit
-                best_overall_ind = list(pop[0])
+            if current_best_fitness < best_overall_fitness:
+                best_overall_fitness = current_best_fitness
+                best_overall_individual = list(population[0])
                 no_improvement_count = 0
             else:
                 no_improvement_count += 1
                 
             if self.early_stopping_rounds and no_improvement_count >= self.early_stopping_rounds:
-                print(f"Stopping early at generation {gen} due to no improvement for {no_improvement_count} rounds.")
+                print(f"Stopping early at generation {generation} due to no improvement for {no_improvement_count} rounds.")
                 break
             
-            new_pop = pop[:self.elite_size]
-            while len(new_pop) < self.pop_size:
-                p1 = self.selection_tournament(pop)
-                p2 = self.selection_tournament(pop)
-                child = self.crossover_ordered(p1, p2)
+            new_population = population[:self.elite_size]
+            while len(new_population) < self.population_size:
+                parent1 = self.selection_tournament(population)
+                parent2 = self.selection_tournament(population)
+                child = self.crossover_ordered(parent1, parent2)
                 child = self.mutate_swap(child)
-                new_pop.append(child)
-            pop = new_pop
+                new_population.append(child)
+            population = new_population
         
         # Reconstruct best solution
-        final_routes, total_dist, unassigned = VRPHelper.split_route_fleet(best_overall_ind, self.depot, self.fleet, self.gas_stations)
+        final_routes, total_dist, unassigned = VRPHelper.split_route_fleet(best_overall_individual, self.depot, self.fleet, self.gas_stations)
         
         return final_routes, total_dist, fitness_history
