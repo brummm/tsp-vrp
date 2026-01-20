@@ -33,7 +33,7 @@ class TestTSP(unittest.TestCase):
     def test_ga_runs(self):
         locations = [self.loc1, self.loc2, self.loc3]
         fleet = [Vehicle(i, 10, max_distance=100) for i in range(5)]
-        ga = GeneticOptimizer(locations, self.depot, fleet=fleet, generations=5, pop_size=10)
+        ga = GeneticOptimizer(locations, self.depot, fleet=fleet, generations=5, population_size=10)
         routes, dist, history = ga.run()
         self.assertTrue(len(routes) > 0)
         self.assertTrue(dist > 0)
@@ -42,7 +42,7 @@ class TestTSP(unittest.TestCase):
     def test_ga_early_stopping(self):
         locations = [self.loc1, self.loc2, self.loc3]
         fleet = [Vehicle(i, 10, max_distance=100) for i in range(5)]
-        ga = GeneticOptimizer(locations, self.depot, fleet=fleet, generations=50, pop_size=10, early_stopping_rounds=2)
+        ga = GeneticOptimizer(locations, self.depot, fleet=fleet, generations=50, population_size=10, early_stopping_rounds=2)
         routes, dist, history = ga.run()
         self.assertTrue(len(history) < 50)
 

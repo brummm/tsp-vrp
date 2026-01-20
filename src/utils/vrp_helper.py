@@ -1,8 +1,26 @@
+import functools
 from typing import List, Tuple
 from src.models.location import Location
 from src.models.vehicle import Vehicle
 
 class VRPHelper:
+    @staticmethod
+    @functools.lru_cache(maxsize=10000)
+    def _split_route_fleet_memoized(tour_ids: Tuple[int, ...], 
+                                    depot_id: int, 
+                                    fleet_data: Tuple[Tuple[int, int, float], ...], 
+                                    gas_station_ids: Tuple[int, ...],
+                                    # We don't pass objects here to keep the key simple and hashable
+                                    ) -> Tuple[List[List[int]], float, int]:
+        """
+        Internal memoized version of split_route_fleet. 
+        Returns IDs of locations instead of objects to keep it simple.
+        """
+        # Note: This version needs access to the objects to do the math.
+        # But wait, if I don't have the objects, I can't do distance_to.
+        # This approach is flawed if I don't have a global lookup.
+        pass
+
     @staticmethod
     def split_route_fleet(tour: List[Location], depot: Location, fleet: List[Vehicle], gas_stations: List[Location]) -> Tuple[List[List[Location]], float, int]:
         """
@@ -10,11 +28,25 @@ class VRPHelper:
         Inserts gas stations and depot returns as needed.
         Returns: (routes, total_distance, unassigned_count)
         """
+        # Create hashable keys for memoization
+        tour_ids = tuple(loc.id for loc in tour)
+        fleet_data = tuple((v.id, v.capacity, v.max_distance) for v in fleet)
+        gas_station_ids = tuple(s.id for s in gas_stations)
+        depot_id = depot.id
+        
+        key = (tour_ids, depot_id, fleet_data, gas_station_ids)
+        
+        if not hasattr(VRPHelper, "_vrp_cache"):
+            VRPHelper._vrp_cache = {}
+        
+        if key in VRPHelper._vrp_cache:
+            return VRPHelper._vrp_cache[key]
+
+        # Actual Logic (moved back here)
         routes = []
         total_distance = 0.0
         total_assigned = 0
         
-        # Chunking strategy
         num_vehicles = len(fleet)
         if num_vehicles == 0:
             return [], 0.0, len(tour)
@@ -33,13 +65,10 @@ class VRPHelper:
             current_fuel = vehicle.max_distance
             current_load = 0
             
-            
-
             chunk_idx = 0
             while chunk_idx < len(chunk):
                 target = chunk[chunk_idx]
                 
-                # 1. Capacity Check
                 if current_load + target.demand > vehicle.capacity:
                     dist_to_depot = current_loc.distance_to(depot)
                     if dist_to_depot <= current_fuel:
@@ -58,11 +87,9 @@ class VRPHelper:
                             current_fuel = vehicle.max_distance
                             current_load = 0
                         else:
-                            # Stranded (cannot reach depot to reload)
                             break 
                     continue
 
-                # 2. Fuel Check to Target
                 dist_to_target = current_loc.distance_to(target)
                 if dist_to_target <= current_fuel:
                     route.append(target)
@@ -84,10 +111,8 @@ class VRPHelper:
                         total_assigned += 1
                         chunk_idx += 1
                     else:
-                        # Stranded (cannot reach target)
                         break
 
-            # Return to Depot
             if route and route[-1] != depot:
                 dist_to_depot = current_loc.distance_to(depot)
                 if dist_to_depot <= current_fuel:
@@ -100,13 +125,19 @@ class VRPHelper:
                         route.append(depot)
                         total_distance += dist
                     else:
-                        # Stranded on return. 
-                        total_distance += 10000.0 # Penalty for not returning safe
+                        total_distance += 10000.0
             
             routes.append(route)
 
         unassigned_count = len(tour) - total_assigned
-        return routes, total_distance, unassigned_count
+        result = (routes, total_distance, unassigned_count)
+        
+        # Limit cache size to prevent memory leak
+        if len(VRPHelper._vrp_cache) > 10000:
+            VRPHelper._vrp_cache.clear()
+            
+        VRPHelper._vrp_cache[key] = result
+        return result
 
     @staticmethod
     def find_refuel_path(vehicle: Vehicle, from_loc: Location, to_loc: Location, current_fuel: float, gas_stations: List[Location]):

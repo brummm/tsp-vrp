@@ -62,10 +62,28 @@ class GeneticOptimizer:
 
     def initial_population(self) -> List[List[Location]]:
         population = []
-        for _ in range(self.population_size):
+        
+        # 1. Create Greedy Individual (Nearest Neighbor Heuristic)
+        # Start from depot, find closest unvisited, repeat.
+        greedy_individual = []
+        unvisited = self.deliveries[:]
+        current_loc = self.depot
+        
+        while unvisited:
+            # Find closest delivery to current location
+            next_loc = min(unvisited, key=lambda loc: current_loc.distance_to(loc))
+            greedy_individual.append(next_loc)
+            unvisited.remove(next_loc)
+            current_loc = next_loc
+            
+        population.append(greedy_individual)
+        
+        # 2. Fill the rest with random individuals
+        for _ in range(self.population_size - 1):
             individual = self.deliveries[:]
             random.shuffle(individual)
             population.append(individual)
+            
         return population
 
     def fitness(self, individual: List[Location]) -> float:
