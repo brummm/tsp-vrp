@@ -1,3 +1,5 @@
+import torch
+import gc
 from typing import List
 from src.models.location import Location
 
@@ -28,7 +30,7 @@ class ReportGenerator:
                         "text-generation", 
                         model=model_name, 
                         device_map="auto",
-                        dtype="auto"
+                        torch_dtype="auto"
                     )
                     self.pipe = _SHARED_PIPELINE
                     print("Model loaded successfully.")
@@ -36,10 +38,19 @@ class ReportGenerator:
                     print(f"Failed to load local model {model_name}: {e}")
                     pass
 
+    def _clear_memory(self):
+        """Aggressive memory cleanup for Mac MPS."""
+        if torch.backends.mps.is_available():
+            torch.mps.empty_cache()
+        gc.collect()
+
     def generate_driver_instructions(self, route_idx: int, route: List[Location]) -> str:
         """
         Generates natural language instructions for a driver using a local LLM.
         """
+        # Clean memory before starting heavy generation
+        self._clear_memory()
+
         # 1. Pre-process the data in Python (Guaranteed Accuracy)
         formatted_stops = []
         for loc in route:
@@ -82,6 +93,10 @@ class ReportGenerator:
                 top_p=0.9
             )
             generated_text = outputs[0]["generated_text"][-1]["content"]
+            
+            # Cleanup after generation
+            self._clear_memory()
+            
             return generated_text.strip()
         except Exception as e:
             print(f"Generation error: {e}")
