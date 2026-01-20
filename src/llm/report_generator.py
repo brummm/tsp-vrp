@@ -1,6 +1,3 @@
-import os
-import re
-import torch
 from typing import List
 from src.models.location import Location
 
@@ -31,7 +28,7 @@ class ReportGenerator:
                         "text-generation", 
                         model=model_name, 
                         device_map="auto",
-                        torch_dtype="auto"
+                        dtype="auto"
                     )
                     self.pipe = _SHARED_PIPELINE
                     print("Model loaded successfully.")
@@ -72,32 +69,20 @@ class ReportGenerator:
             )}
         ]
 
-        if self.pipe:
-            try:
-                outputs = self.pipe(
-                    messages, 
-                    max_new_tokens=256, # Optimization: Reduced from 512
-                    do_sample=True, 
-                    temperature=0.7,
-                    top_p=0.9
-                )
-                generated_text = outputs[0]["generated_text"][-1]["content"]
-                return generated_text.strip()
-            except Exception as e:
-                print(f"Generation error: {e}")
-                return self._mock_instructions(route_idx, route)
-        else:
-            return self._mock_instructions(route_idx, route)
+        if not self.pipe:
+            print("Model not loaded.")
+            return None
 
-    def _mock_instructions(self, route_idx: int, route: List[Location]) -> str:
-        lines = [f"*** ROUTE PLAN (SIMULATED LLM OUTPUT) FOR DRIVER {route_idx + 1} ***"]
-        lines.append("Good morning! Here is your optimized delivery route for today.")
-        lines.append("")
-        lines.append("1. 🏭 DEPART from Central Depot.")
-        for i, loc in enumerate(route):
-            prio_icon = "🔴" if loc.priority == 3 else ("kz" if loc.priority == 2 else "🟢")
-            prio_text = "CRITICAL" if loc.priority == 3 else ("HIGH" if loc.priority == 2 else "Normal")
-            lines.append(f"{i+2}. 🏥 DELIVER to {loc.name}. Priority: {prio_text} {prio_icon}")
-        lines.append(f"{len(route)+2}. 🏁 RETURN to Central Depot.")
-        lines.append("\nDrive safely!")
-        return "\n".join(lines)
+        try:
+            outputs = self.pipe(
+                messages, 
+                max_new_tokens=256, # Optimization: Reduced from 512
+                do_sample=True, 
+                temperature=0.7,
+                top_p=0.9
+            )
+            generated_text = outputs[0]["generated_text"][-1]["content"]
+            return generated_text.strip()
+        except Exception as e:
+            print(f"Generation error: {e}")
+            return None

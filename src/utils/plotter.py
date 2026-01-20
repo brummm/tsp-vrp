@@ -71,11 +71,8 @@ class Plotter:
         
         handles, labels = plt.gca().get_legend_handles_labels()
         
-        # Deduplicate and merge
+        
         by_label = dict()
-        # for h, l in zip(handles, labels):
-        #     if l not in by_label:
-        #         by_label[l] = h
         for le in legend_elements:
             if le.get_label() not in by_label:
                 by_label[le.get_label()] = le
