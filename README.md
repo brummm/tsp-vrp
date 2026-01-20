@@ -15,6 +15,25 @@ This project implements a genetic algorithm to solve the Vehicle Routing Problem
 *   `src/models/`: Data classes (Location, Vehicle).
 *   `src/llm/`: LLM interface for report generation (uses `transformers` pipeline).
 *   `notebooks/`: Demo notebook showing the full pipeline.
+  
+## Usage 
+### Docker image
+#### Build docker image
+1.  Build
+    ```bash
+    docker build -t tsp-vrp .
+    ```
+2.  Run
+    ```bash
+    docker run -p 8888:8888 -v "$(pwd)/model_cache:/root/.cache/huggingface" -v "$(pwd):/app" tsp-vrp
+    ```
+3. Open:
+    -p 8888:8888: Maps the 8888 door from your machine to the same container's door.
+    -v "\$(pwd):/app": (Optional, but usefull)  Maps your current folder ($(pwd)) to the `/app` folder within the container. That means that any updates you make on your notebook locally will be reflected inside the container and vice-versa.
+    
+    When you run that your terminal will return a URL with a token. Something like: http://127.0.0.1:8888/?token=a1b2c3d4e5f6...
+    
+    Use that URL to access the project's notebook.
 
 ## Usage
 
