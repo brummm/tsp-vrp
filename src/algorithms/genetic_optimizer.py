@@ -1,6 +1,6 @@
 import random
 import copy
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 from src.models.location import Location
 from src.models.vehicle import Vehicle
 from src.utils.vrp_helper import VRPHelper
@@ -9,11 +9,44 @@ class GeneticOptimizer:
     def __init__(self, locations: List[Location], depot: Location, fleet: List[Vehicle], 
                  population_size=100, elite_size=2, mutation_rate=0.02, generations=200,
                  early_stopping_rounds: int = None, priority_weight: float = 0.1):
-        self.deliveries = [loc for loc in locations if getattr(loc, 'type', 'delivery') == 'delivery']
-        self.gas_stations = [loc for loc in locations if getattr(loc, 'type', 'delivery') == 'gas_station']
         
-        self.depot = depot
-        self.fleet = fleet
+        # --- Pre-processing for Performance (Data-Oriented Design) ---
+        self.all_locations = locations + [depot]
+        # Normalize IDs to 0..N-1 range for array indexing
+        # Mapping: old_id -> new_index
+        self.id_map = {loc.id: i for i, loc in enumerate(self.all_locations)}
+        self.reverse_map = {i: loc for i, loc in enumerate(self.all_locations)}
+        
+        self.num_locations = len(self.all_locations)
+        
+        # Arrays for O(1) lookup
+        self.demands = [0] * self.num_locations
+        self.priorities = [0] * self.num_locations
+        self.types = [""] * self.num_locations
+        
+        for i, loc in enumerate(self.all_locations):
+            self.demands[i] = loc.demand
+            self.priorities[i] = loc.priority
+            self.types[i] = getattr(loc, 'type', 'delivery')
+
+        # Identify special indices
+        self.depot_idx = self.id_map[depot.id]
+        self.delivery_indices = [self.id_map[loc.id] for loc in locations if getattr(loc, 'type', 'delivery') == 'delivery']
+        self.gas_station_indices = [self.id_map[loc.id] for loc in locations if getattr(loc, 'type', 'delivery') == 'gas_station']
+        
+        # Fleet Specs (Tuple for immutability)
+        self.fleet_specs = [(v.capacity, v.max_distance) for v in fleet]
+        
+        # Distance Matrix (List of Lists)
+        self.distance_matrix = [[0.0] * self.num_locations for _ in range(self.num_locations)]
+        for i in range(self.num_locations):
+            for j in range(self.num_locations):
+                if i != j:
+                    loc_a = self.reverse_map[i]
+                    loc_b = self.reverse_map[j]
+                    self.distance_matrix[i][j] = loc_a.distance_to(loc_b)
+
+        # Config
         self.population_size = population_size
         self.elite_size = elite_size
         self.mutation_rate = mutation_rate
@@ -22,6 +55,7 @@ class GeneticOptimizer:
         self.priority_weight = priority_weight
 
     def run(self) -> Tuple[List[List[Location]], float, List[float]]:
+        # Run Genetic Algorithm using Integers
         population = self.initial_population()
         best_overall_individual = None
         best_overall_fitness = float('inf')
@@ -54,51 +88,72 @@ class GeneticOptimizer:
                 new_population.append(child)
             population = new_population
         
-        # Reconstruct best solution
-        final_routes, total_dist, unassigned = VRPHelper.split_route_fleet(best_overall_individual, self.depot, self.fleet, self.gas_stations)
+        # Reconstruct Objects from Best Integer Individual
+        # 1. Get the integer routes
+        final_route_ids, total_dist, unassigned = VRPHelper.split_route_fleet(
+            tuple(best_overall_individual), 
+            self.depot_idx, 
+            self.fleet_specs, 
+            self.gas_station_indices, 
+            self.distance_matrix,
+            self.demands
+        )
         
-        return final_routes, total_dist, fitness_history
+        # 2. Convert IDs back to Location Objects
+        final_routes_objs = []
+        for route_ids in final_route_ids:
+            route_objs = [self.reverse_map[idx] for idx in route_ids]
+            final_routes_objs.append(route_objs)
+            
+        return final_routes_objs, total_dist, fitness_history
     
 
-    def initial_population(self) -> List[List[Location]]:
+    def initial_population(self) -> List[List[int]]:
         population = []
         
-        # 1. Create Greedy Individual (Nearest Neighbor Heuristic)
-        # Start from depot, find closest unvisited, repeat.
+        # 1. Greedy Individual (Matrix Lookup)
         greedy_individual = []
-        unvisited = self.deliveries[:]
-        current_loc = self.depot
+        unvisited = self.delivery_indices[:]
+        current_idx = self.depot_idx
         
         while unvisited:
-            # Find closest delivery to current location
-            next_loc = min(unvisited, key=lambda loc: current_loc.distance_to(loc))
-            greedy_individual.append(next_loc)
-            unvisited.remove(next_loc)
-            current_loc = next_loc
+            # Fast matrix lookup
+            next_idx = min(unvisited, key=lambda idx: self.distance_matrix[current_idx][idx])
+            greedy_individual.append(next_idx)
+            unvisited.remove(next_idx)
+            current_idx = next_idx
             
         population.append(greedy_individual)
         
-        # 2. Fill the rest with random individuals
+        # 2. Random Individuals
         for _ in range(self.population_size - 1):
-            individual = self.deliveries[:]
+            individual = self.delivery_indices[:]
             random.shuffle(individual)
             population.append(individual)
             
         return population
 
-    def fitness(self, individual: List[Location]) -> float:
-        routes, total_dist, unassigned_count = VRPHelper.split_route_fleet(individual, self.depot, self.fleet, self.gas_stations)
+    def fitness(self, individual: List[int]) -> float:
+        # Pass Tuple(individual) for memoization key
+        routes, total_dist, unassigned_count = VRPHelper.split_route_fleet(
+            tuple(individual), 
+            self.depot_idx, 
+            self.fleet_specs, 
+            self.gas_station_indices, 
+            self.distance_matrix,
+            self.demands
+        )
         
-        unassigned_penalty = unassigned_count * 50000.0 # add a huge penalty if a route is not complete
-        priority_penalty = VRPHelper.calculate_priority_score(routes) * self.priority_weight # adds an adjustable penalty to try to 
+        unassigned_penalty = unassigned_count * 50000.0
+        priority_penalty = VRPHelper.calculate_priority_score(routes, self.priorities) * self.priority_weight
         
         return total_dist + unassigned_penalty + priority_penalty
 
-    def selection_tournament(self, population: List[List[Location]], k=5) -> List[Location]:
+    def selection_tournament(self, population: List[List[int]], k=5) -> List[int]:
         tournament = random.sample(population, k)
         return min(tournament, key=self.fitness)
 
-    def crossover_ordered(self, parent1: List[Location], parent2: List[Location]) -> List[Location]:
+    def crossover_ordered(self, parent1: List[int], parent2: List[int]) -> List[int]:
         if len(parent1) < 2: return parent1
         start, end = sorted(random.sample(range(len(parent1)), 2))
         child = [None] * len(parent1)
@@ -119,11 +174,9 @@ class GeneticOptimizer:
                 child[i] = remaining.pop(0)
         return child
 
-    def mutate_swap(self, individual: List[Location]) -> List[Location]:
+    def mutate_swap(self, individual: List[int]) -> List[int]:
         for i in range(len(individual)):
             if random.random() < self.mutation_rate:
                 j = random.randint(0, len(individual) - 1)
                 individual[i], individual[j] = individual[j], individual[i]
         return individual
-
-    

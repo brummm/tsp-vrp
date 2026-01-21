@@ -30,7 +30,7 @@ class ReportGenerator:
                         "text-generation", 
                         model=model_name, 
                         device_map="auto",
-                        torch_dtype="auto"
+                        dtype="auto"
                     )
                     self.pipe = _SHARED_PIPELINE
                     print("Model loaded successfully.")

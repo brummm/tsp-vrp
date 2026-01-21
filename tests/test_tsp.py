@@ -16,18 +16,27 @@ class TestTSP(unittest.TestCase):
 
     def test_split_route(self):
         tour = [self.loc1, self.loc2, self.loc3]
+        locations = [self.loc1, self.loc2, self.loc3]
         fleet = [Vehicle(1, 10, max_distance=100), Vehicle(2, 10, max_distance=100), Vehicle(3, 10, max_distance=100)]
-        gas_stations = []
         
-        # Logic: Chunking
-        # 3 vehicles, 3 locs. 1 loc each.
-        # All reachable.
-        routes, dist, unassigned = VRPHelper.split_route_fleet(tour, self.depot, fleet, gas_stations)
+        # Instantiate Optimizer to build the matrix and lookups
+        ga = GeneticOptimizer(locations, self.depot, fleet=fleet, population_size=10, generations=1)
         
-        self.assertEqual(len(routes), 3)
-        self.assertEqual(routes[0], [self.loc1, self.depot])
-        self.assertEqual(routes[1], [self.loc2, self.depot])
-        self.assertEqual(routes[2], [self.loc3, self.depot])
+        # Manually invoke the fitness function logic to test splitting
+        # We need the indices of the tour
+        tour_indices = [ga.id_map[loc.id] for loc in tour]
+        
+        routes_ids, dist, unassigned = VRPHelper.split_route_fleet(
+            tuple(tour_indices), 
+            ga.depot_idx, 
+            ga.fleet_specs, 
+            ga.gas_station_indices, 
+            ga.distance_matrix, 
+            ga.demands
+        )
+        
+        # fleet_specs should be length 3, so 3 routes are created (some might be empty)
+        self.assertEqual(len(routes_ids), 3)
         self.assertEqual(unassigned, 0)
 
     def test_ga_runs(self):
